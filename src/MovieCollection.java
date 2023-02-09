@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class MovieCollection {
   private ArrayList<Movie> movies;
@@ -196,30 +197,56 @@ public class MovieCollection {
     if (results.size() > 0)
     {
       sortResults(results);
-    }
 
-    for (int i = 0; i < results.size(); i++)
+      for (int i = 0; i < results.size(); i++)
+      {
+        String title = results.get(i).getTitle();
+
+        int movieNum = i + 1;
+        System.out.println("" + movieNum + ". " + title);
+      }
+
+      System.out.println("Which movie would you like to learn more about?");
+      System.out.print("Enter number: ");
+      int choice = scanner.nextInt();
+      scanner.nextLine();
+      Movie selectedMovie = results.get(choice - 1);
+      displayMovieInfo(selectedMovie);
+      System.out.println("\n ** Press Enter to Return to Main Menu **");
+      scanner.nextLine();
+
+    }
+    else
     {
-      String title = results.get(i).getTitle();
-
-      int movieNum = i + 1;
-      System.out.println("" + movieNum + ". " + title);
+      System.out.println("\nNo movie titles match that search term!");
+      System.out.println("** Press Enter to Return to Main Menu **");
+      scanner.nextLine();
     }
-
-    System.out.println("Which movie would you like to learn more about?");
-    System.out.print("Enter number: ");
-    int choice = scanner.nextInt();
-    scanner.nextLine();
-    Movie selectedMovie = results.get(choice - 1);
-    displayMovieInfo(selectedMovie);
-    System.out.println("\n ** Press Enter to Return to Main Menu **");
-    scanner.nextLine();
-
-
   }
 
   private void searchCast() {
-    /* TASK 4: IMPLEMENT ME */
+    System.out.print("Enter a person to search for (First & Last name): ");
+    String looking4Cast = scanner.nextLine();
+    looking4Cast = looking4Cast.toLowerCase();
+
+    ArrayList<String> results = new ArrayList<>();
+
+    for (int i = 0; i < movies.size(); i++)
+    {
+      String cast = movies.get(i).getCast();
+      cast = cast.toLowerCase();
+
+      if (cast.contains(looking4Cast))
+      {
+        results.add(movies.get(i).getCast());
+      }
+    }
+    //Go through each item of results (which is a String)
+    //Split them to make a new Arrays
+    //turn Array into ArrayList
+    //Go through every item in the ArrayList and remove every item that doesn't contain the search term
+    //Add every remaining item to a big ArrayList that would contain every Actor
+
   }
   
   private void listGenres() {
