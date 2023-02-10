@@ -230,6 +230,7 @@ public class MovieCollection {
     looking4Cast = looking4Cast.toLowerCase();
 
     ArrayList<String> results = new ArrayList<>();
+    ArrayList<String> actorFR = new ArrayList<>();
 
     for (int i = 0; i < movies.size(); i++)
     {
@@ -241,11 +242,29 @@ public class MovieCollection {
         results.add(movies.get(i).getCast());
       }
     }
+
     //Go through each item of results (which is a String)
     //Split them to make a new Arrays
     //turn Array into ArrayList
     //Go through every item in the ArrayList and remove every item that doesn't contain the search term
     //Add every remaining item to a big ArrayList that would contain every Actor
+    for (int i = 0; i < results.size(); i++)
+    {
+      String[] split = results.get(i).split("\\|");
+      for (int j = 0; j < split.length; j++)
+      {
+        if (split[j].contains(looking4Cast))
+        {
+          actorFR.add(split[j]);
+        }
+      }
+    }
+
+    for (String actor : actorFR)
+    {
+      System.out.println(actor);
+    }
+
 
   }
   
