@@ -160,6 +160,23 @@ public class MovieCollection {
       listToSort.set(possibleIndex, temp);
     }
   }
+
+  private void sortCast(ArrayList<String> listToSort)
+  {
+    for (int j = 1; j < listToSort.size(); j++)
+    {
+        String temp = listToSort.get(j);
+
+        int possibleIndex = j;
+        while (possibleIndex > 0 && temp.compareTo(listToSort.get(possibleIndex - 1)) < 0)
+        {
+          listToSort.set(possibleIndex, listToSort.get(possibleIndex - 1));
+          possibleIndex--;
+        }
+        listToSort.set(possibleIndex, temp);
+    }
+
+  }
   
   private void displayMovieInfo(Movie movie) {
     System.out.println();
@@ -253,21 +270,78 @@ public class MovieCollection {
       String[] split = results.get(i).split("\\|");
       for (int j = 0; j < split.length; j++)
       {
-        if (split[j].contains(looking4Cast))
+        String splitLower = split[j].toLowerCase();
+        if (splitLower.contains(looking4Cast))
         {
           actorFR.add(split[j]);
         }
       }
     }
 
-    for (String actor : actorFR)
-    {
-      System.out.println(actor);
+    removeDuplicates(actorFR);
+    sortCast(actorFR);
+
+    for (int i = 0; i < actorFR.size(); i++) {
+      String actor = actorFR.get(i);
+
+      // this will print index 0 as choice 1 in the results list; better for user!
+      int choiceNum = i + 1;
+      System.out.println("" + choiceNum + ". " + actor);
     }
+
+    System.out.print("Enter the number of the Actor whose movies you'd like to see: ");
+    int choice = scanner.nextInt();
+    scanner.nextLine();
+    String chosenActor = actorFR.get(choice - 1);
+
+    ArrayList<Movie> actorsMovies = new ArrayList<>();
+    for (int i = 0; i < movies.size(); i++)
+    {
+      if (movies.get(i).getCast().contains(chosenActor))
+      {
+        actorsMovies.add(movies.get(i));
+      }
+    }
+
+    for (int i = 0; i < actorsMovies.size(); i++)
+    {
+      String title = actorsMovies.get(i).getTitle();
+
+      // this will print index 0 as choice 1 in the results list; better for user!
+      int choiceNum = i + 1;
+      System.out.println("" + choiceNum + ". " + title);
+    }
+
+    System.out.println("Which movie would you like to learn more about?");
+    System.out.print("Enter number: ");
+    int choice2 = scanner.nextInt();
+    scanner.nextLine();
+    Movie selectedMovie = actorsMovies.get(choice2 - 1);
+    displayMovieInfo(selectedMovie);
+    System.out.println("\n ** Press Enter to Return to Main Menu **");
+    scanner.nextLine();
+
 
 
   }
-  
+
+  public static void removeDuplicates(ArrayList<String> stringList)
+  {
+    for (int i = 0; i < stringList.size(); i++)
+    {
+      for (int j = i + 1; j < stringList.size(); j++)
+      {
+        if (stringList.get(j).equals(stringList.get(i)))
+        {
+          stringList.remove(j);
+          j--;
+        }
+      }
+    }
+  }
+
+
+
   private void listGenres() {
     /* TASK 5: IMPLEMENT ME */
   }
